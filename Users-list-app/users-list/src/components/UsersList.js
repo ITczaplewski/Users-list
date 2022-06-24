@@ -1,7 +1,12 @@
+import {useState} from 'react'
 const UsersList = ({users}) => {
-    return (<div>
-<table className="table table-dark table-striped-columns">
-  <thead>
+    const [searchTerm,setSearchTerm] = useState("")
+return (
+<div>
+
+<input type="text"  placeholder="Imię i nazwisko..." onChange={event => {setSearchTerm(event.target.value)}}/>
+<table className="table table-dark table-striped">
+  <thead className="columns">
     <tr >
       <th  scope="col">ID</th>
       <th  scope="col">Imię i nazwisko</th>
@@ -10,17 +15,25 @@ const UsersList = ({users}) => {
     </tr>
   </thead>
   <tbody>
-    {users.map(user => (
-     <tr>
-        <th  scope = "row">{user.id}</th>
-        <td >{user.name}</td>
-        <td >{user.username}</td>
-        <td >{user.email}</td>
+    {users.filter((val)=>{
+        if(searchTerm === ""){
+            return val
+        } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return val
+        }
+    }).map((val,key) => (
+     <tr className="user" key={key}>
+        <th  scope = "row">{val.id}</th>
+        <td >{val.name}</td>
+        <td >{val.username}</td>
+        <td >{val.email}</td>
      </tr>
     ))}
   </tbody>
-</table>
-    </div>);
+</table> 
+
+</div>);  
+
 }
 
 export default UsersList;
